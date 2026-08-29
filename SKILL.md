@@ -68,3 +68,19 @@ Verify every hop using definitions, imports, registrations, calls, configuration
 Prune aggressively. Include a file only when it introduces an essential concept, performs an important transition, or proves a connection in the flow. Skip generated code, vendored dependencies, repeated adapters, and unrelated infrastructure unless the chosen mission depends on them.
 
 The critical-path step is complete when there is a continuous, evidence-backed chain from a public entry point to an observable result, plus at least one test that demonstrates or protects that behavior.
+
+## Fit the Time Budget
+
+Treat the time budget as the user's reading time, not as a limit on repository analysis. Inspect as much code as needed to build an accurate route, then expose only what fits the requested budget.
+
+Use 15 minutes when the user gives no budget. Scale the route around these presets:
+
+- **5-minute sprint:** 3–4 checkpoints covering repository purpose, the public entry point, the core transition, and the observable result or test anchor.
+- **15-minute run:** 5–7 checkpoints covering the complete critical path and one representative test.
+- **30-minute deep run:** 7–10 checkpoints covering the critical path, important runtime wiring, the main state or external boundary, and representative tests. Add optional side quests only after the main route is complete.
+
+For other budgets, interpolate by understanding depth rather than by file count.
+
+Assign each checkpoint a realistic reading estimate. Prefer a focused symbol or line range over an entire file. The sum of checkpoint estimates must not exceed the user's budget.
+
+Preserve the complete causal chain at every budget. When the route is too large, combine adjacent hops or shorten their explanations instead of silently removing the connection between entry point and result.
