@@ -84,3 +84,42 @@ For other budgets, interpolate by understanding depth rather than by file count.
 Assign each checkpoint a realistic reading estimate. Prefer a focused symbol or line range over an entire file. The sum of checkpoint estimates must not exceed the user's budget.
 
 Preserve the complete causal chain at every budget. When the route is too large, combine adjacent hops or shorten their explanations instead of silently removing the connection between entry point and result.
+
+## Present the Speedrun
+
+Write the tour in the user's language while preserving repository identifiers and code symbols exactly.
+
+Start with:
+
+- repository and analyzed commit;
+- selected scope;
+- speedrun mission;
+- total reading budget;
+- any access limitation that reduces confidence.
+
+Give a 30-second briefing that states what the repository does, its primary runtime, and the chosen execution flow in plain language.
+
+Show the route as one compact sequence, such as `public entry → orchestration → core behavior → external boundary → observable result → test`.
+
+Present each stop using this structure:
+
+### Checkpoint N: Descriptive name — estimated time
+
+- **Read:** a commit-pinned GitHub link to a focused line range and the relevant symbol.
+- **Why now:** why this is the next causal step.
+- **Watch for:** one concrete question the user should answer while reading.
+- **Handoff:** what value, control, or state moves to the next checkpoint.
+
+Build source links as `https://github.com/{owner}/{repo}/blob/{commit}/{path}#L{start}-L{end}` whenever possible.
+
+Every checkpoint must advance the user's causal understanding. Avoid repeating repository orientation, summarizing an entire file, or including a file only because it appears important.
+
+Finish with:
+
+- **Finish Line:** a concise end-to-end explanation of the traced flow;
+- **Run Complete:** the questions the user should now be able to answer;
+- **Skipped on Purpose:** important-looking areas excluded from this run and why;
+- **Side Quests:** optional next reading paths outside the stated budget;
+- **Uncertainty:** unresolved links, inferences, or access limitations.
+
+Omit empty sections. Keep side quests outside the advertised reading budget.
