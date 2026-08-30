@@ -120,6 +120,9 @@ Build source links as `https://github.com/{owner}/{repo}/blob/{commit}/{path}#L{
 
 Every checkpoint must advance the user's causal understanding. Avoid repeating repository orientation, summarizing an entire file, or including a file only because it appears important.
 
+- Make the compact runtime route start at the concrete public entry point and continue through orchestration, core behavior, and the observable boundary.
+- Use one concise Markdown link per source target. Do not split one source description across adjacent links or repeat the same URL within a bullet.
+
 Finish with:
 
 - **Finish Line:** a concise end-to-end explanation of the traced flow;

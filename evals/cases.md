@@ -52,3 +52,33 @@ Reading budget: 15 minutes
 - Stops at command registration without reaching stdout.
 - Claims the demo tape is an automated test.
 - Exceeds the reading budget.
+
+## Case 3: Python CLI with a prompted option
+
+Repository: https://github.com/pallets/click.git
+
+Pinned revision: 36baa15ff831b939a22bc527cd76ce653ef6f66d
+
+Mission: Trace how the README `hello()` example parses its options, invokes the callback, and writes output.
+
+Reading budget: 5 minutes
+
+### Expected behavior
+
+- Produce 3–4 checkpoints totaling no more than 5 minutes.
+- Start the compact runtime route at the concrete `hello()` entry point.
+- Trace `Command.__call__`, `Command.main`, context creation, argument parsing, `Command.invoke`, the user callback, and `click.echo`.
+- Distinguish the command-line `--count` option from the prompted `--name` option.
+- Pin every source link to the analyzed commit.
+- Use one concise Markdown link for each source target.
+- Use `test_basic_functionality` to explain normal execution and the `--help` early-exit behavior.
+- Keep test evidence outside the runtime execution chain.
+
+### Failure conditions
+
+- Starts the compact runtime route at `parse_args` and omits the public entry or orchestration.
+- Describes `name` as a positional argument.
+- Splits one source description into adjacent links pointing to the same URL.
+- Claims that `--help` executes the command callback.
+- Stops before reaching stdout.
+- Exceeds the reading budget.
