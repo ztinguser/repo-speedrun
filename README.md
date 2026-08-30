@@ -26,13 +26,19 @@ Repo Speedrun 是一个 Codex Skill。它会从仓库的公开入口出发，沿
 
 ## 安装
 
-让 Codex 从下面的地址安装 Skill：
+使用 Skills CLI 将 Repo Speedrun 全局安装到 Codex：
 
-```text
-https://github.com/ztinguser/repo-speedrun/tree/master/skills/repo-speedrun
+```powershell
+npx skills add ztinguser/repo-speedrun --skill repo-speedrun --agent codex --global
 ```
 
-例如，可以向 Codex 发送：
+如果只想安装到当前项目，移除 `--global`：
+
+```powershell
+npx skills add ztinguser/repo-speedrun --skill repo-speedrun --agent codex
+```
+
+也可以直接让 Codex 从 GitHub 安装：
 
 ```text
 请安装这个 Skill：
