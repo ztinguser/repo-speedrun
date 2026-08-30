@@ -132,3 +132,13 @@ Finish with:
 - **Uncertainty:** unresolved links, inferences, or access limitations.
 
 Omit empty sections. Keep side quests outside the advertised reading budget.
+
+## Clean Up Temporary Acquisition
+
+Track whether the current run created a temporary repository clone and record its exact resolved path when it is created.
+
+After the analysis, source links, and final speedrun are complete, remove that temporary clone unless the user explicitly asked to keep it. Before removal, verify that the resolved cleanup target exactly matches the recorded path and that this path was created under the system temporary directory during the current run.
+
+Never remove a user-provided repository, a reused checkout, the current workspace, a home directory, or a filesystem root. Do not use globs, unresolved environment variables, or a parent directory as the cleanup target.
+
+If ownership or containment cannot be proven, preserve the directory and report its path. If cleanup fails, report the remaining path and error so the user can remove it manually.
