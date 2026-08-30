@@ -61,13 +61,13 @@ Start from a concrete public entry point and follow actual code references throu
 2. routing or orchestration;
 3. core domain behavior;
 4. state change or external boundary;
-5. a representative test.
+5. a representative test, or repository evidence that this path lacks a valid test.
 
 Verify every hop using definitions, imports, registrations, calls, configuration, or tests. A plausible filename or directory structure is not evidence.
 
 Prune aggressively. Include a file only when it introduces an essential concept, performs an important transition, or proves a connection in the flow. Skip generated code, vendored dependencies, repeated adapters, and unrelated infrastructure unless the chosen mission depends on them.
 
-The critical-path step is complete when there is a continuous, evidence-backed chain from a public entry point to an observable result, plus at least one test that demonstrates or protects that behavior.
+The critical-path step is complete when there is a continuous, evidence-backed chain from a public entry point to an observable result, plus either a representative test that protects the behavior or an explicit, evidence-backed test-gap finding.
 
 ## Fit the Time Budget
 
@@ -75,9 +75,11 @@ Treat the time budget as the user's reading time, not as a limit on repository a
 
 Use 15 minutes when the user gives no budget. Scale the route around these presets:
 
-- **5-minute sprint:** 3–4 checkpoints covering repository purpose, the public entry point, the core transition, and the observable result or test anchor.
-- **15-minute run:** 5–7 checkpoints covering the complete critical path and one representative test.
-- **30-minute deep run:** 7–10 checkpoints covering the critical path, important runtime wiring, the main state or external boundary, and representative tests. Add optional side quests only after the main route is complete.
+- **5-minute sprint:** 3–4 checkpoints covering repository purpose, the public entry point, the core transition, the observable result, and a test anchor or test gap.
+- **15-minute run:** 5–7 checkpoints covering the complete critical path and one validation anchor or test-gap finding.
+- **30-minute deep run:** 7–10 checkpoints covering the critical path, important runtime wiring, the main state or external boundary, and representative validation paths. If tests are missing or stale, inspect and explain the gap. Add optional side quests only after the main route is complete.
+
+At shorter budgets, a verified call site may represent an external boundary. At deeper budgets, follow that boundary into its implementation when doing so materially improves the selected mission.
 
 For other budgets, interpolate by understanding depth rather than by file count.
 
@@ -99,13 +101,13 @@ Start with:
 
 Give a 30-second briefing that states what the repository does, its primary runtime, and the chosen execution flow in plain language.
 
-Show the route as one compact sequence, such as `public entry → orchestration → core behavior → external boundary → observable result → test`.
+Show the runtime route as one compact sequence, such as `public entry → orchestration → core behavior → external boundary → observable result`. Present tests or test gaps as validation evidence, not as runtime hops.
 
 Present each stop using this structure:
 
 ### Checkpoint N: Descriptive name — estimated time
 
-- **Read:** a commit-pinned GitHub link to a focused line range and the relevant symbol.
+- **Read:** one or more commit-pinned GitHub links to focused line ranges and relevant symbols. Every linked range must be necessary to explain this checkpoint.
 - **Why now:** why this is the next causal step.
 - **Watch for:** one concrete question the user should answer while reading.
 - **Handoff:** what value, control, or state moves to the next checkpoint.
