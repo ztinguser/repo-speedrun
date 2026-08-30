@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repo Speedrun 🏎️"
+  short_description: "Trace any GitHub repo's critical path in minutes"
+  default_prompt: "Use $repo-speedrun to turn this GitHub repository into a 15-minute critical-path reading route: [URL]"
