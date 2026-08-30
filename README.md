@@ -2,7 +2,7 @@
 
 几分钟内读懂一个陌生的 GitHub 仓库。
 
-Repo Speedrun 是一个 Codex Skill。它会从仓库的公开入口出发，沿着真实代码调用关系追踪一条代表性执行路径，并生成一份带有源码链接的限时阅读路线。
+Repo Speedrun 是一个 Agent Skill。它会从仓库的公开入口出发，沿着真实代码调用关系追踪一条代表性执行路径，并生成一份带有源码链接的限时阅读路线。
 
 ## 能得到什么
 
@@ -26,26 +26,39 @@ Repo Speedrun 是一个 Codex Skill。它会从仓库的公开入口出发，沿
 
 ## 安装
 
-使用 Skills CLI 将 Repo Speedrun 全局安装到 Codex：
+Repo Speedrun 遵循通用 Agent Skills 结构，可安装到 Codex、Claude Code、Cursor、OpenCode、Gemini CLI 等支持 Skill 的 Agent。
+
+让 Skills CLI 检测本机 Agent 并交互选择：
 
 ```powershell
+npx skills add ztinguser/repo-speedrun --skill repo-speedrun --global
+```
+
+也可以直接指定 Agent：
+
+```powershell
+# Codex
 npx skills add ztinguser/repo-speedrun --skill repo-speedrun --agent codex --global
+
+# Claude Code
+npx skills add ztinguser/repo-speedrun --skill repo-speedrun --agent claude-code --global
+
+# 同时安装到 Codex 和 Claude Code
+npx skills add ztinguser/repo-speedrun --skill repo-speedrun --agent codex --agent claude-code --global
 ```
 
-如果只想安装到当前项目，移除 `--global`：
+移除 `--global` 可以只安装到当前项目。
 
-```powershell
-npx skills add ztinguser/repo-speedrun --skill repo-speedrun --agent codex
-```
-
-也可以直接让 Codex 从 GitHub 安装：
+也可以直接让支持 GitHub 安装的 Agent 使用 Skill 目录地址：
 
 ```text
 请安装这个 Skill：
 https://github.com/ztinguser/repo-speedrun/tree/master/skills/repo-speedrun
 ```
 
-安装完成后，在新的对话中使用 `$repo-speedrun`。
+安装完成后，请按照对应 Agent 的 Skill 调用方式使用它。在 Codex 中可以使用 `$repo-speedrun`。
+
+目前已在 Codex 完成端到端验证；其他 Agent 的安装结构受支持，但尚未逐一进行行为验证。
 
 ## 使用方法
 
@@ -110,7 +123,7 @@ python -m unittest discover -s tests -v
 
 ```text
 repo-speedrun/
-├─ skills/repo-speedrun/   可安装的 Codex Skill
+├─ skills/repo-speedrun/   可安装的 Agent Skill
 ├─ tests/                  自动化测试
 └─ evals/                  行为评测案例
 ```
