@@ -1,4 +1,6 @@
+import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path, PurePosixPath
 
@@ -12,10 +14,29 @@ SKILL_ROOT = (
 sys.path.insert(0, str(SKILL_ROOT))
 
 from scripts.repo_snapshot import (
+    build_snapshot,
     classify_files,
     is_manifest,
     is_test_file,
 )
+
+
+def run_git(repository: Path, *arguments: str) -> str:
+    result = subprocess.run(
+        [
+            "git",
+            "-C",
+            str(repository),
+            *arguments,
+        ],
+        check=True,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+    )
+
+    return result.stdout.strip()
 
 
 class ManifestClassificationTests(unittest.TestCase):
@@ -111,6 +132,66 @@ class FileClassificationTests(unittest.TestCase):
                 ],
             },
         )
+
+
+class SnapshotIntegrationTests(unittest.TestCase):
+    def test_builds_snapshot_from_real_git_repository(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            repository = Path(directory)
+
+            run_git(repository, "init")
+            run_git(repository, "config", "user.name", "Repo Speedrun Tests")
+            run_git(
+                repository,
+                "config",
+                "user.email",
+                "repo-speedrun@example.com",
+            )
+
+            source_directory = repository / "src"
+            source_directory.mkdir()
+
+            (repository / "README.md").write_text(
+                "# Tiny Repository\n",
+                encoding="utf-8",
+            )
+            (source_directory / "main.py").write_text(
+                'print("hello")\n',
+                encoding="utf-8",
+            )
+
+            run_git(repository, "add", ".")
+            run_git(repository, "commit", "-m", "initial commit")
+            run_git(
+                repository,
+                "remote",
+                "add",
+                "origin",
+                "https://github.com/example/tiny-repository.git",
+            )
+
+            expected_sha = run_git(repository, "rev-parse", "HEAD")
+
+            snapshot = build_snapshot(source_directory)
+
+            self.assertEqual(
+                snapshot["repository_root"],
+                repository.resolve().as_posix(),
+            )
+            self.assertEqual(
+                snapshot["remote_url"],
+                "https://github.com/example/tiny-repository.git",
+            )
+            self.assertEqual(snapshot["commit_sha"], expected_sha)
+            self.assertEqual(snapshot["tracked_file_count"], 2)
+            self.assertEqual(
+                snapshot["signals"]["readmes"],
+                ["README.md"],
+            )
+            self.assertEqual(
+                snapshot["signals"]["entrypoint_candidates"],
+                ["src/main.py"],
+            )
 
 
 if __name__ == "__main__":
